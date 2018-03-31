@@ -31,17 +31,17 @@ class SearchListingImage : Equatable {
         return nil
     }
     
-    func loadThumbnailImage(_ completion: @escaping (_ listingImage:SearchListingImage, _ error: NSError?) -> Void) {
+    func loadThumbnailImage(_ completion: @escaping (_ listingImage:SearchListingImage, _ error: NSError?) -> Void) -> URLSessionDataTask? {
         guard let loadURL = searchListingImageURL() else {
             DispatchQueue.main.async {
                 completion(self, nil)
             }
-            return
+            return nil
         }
         
         let loadRequest = URLRequest(url:loadURL)
         
-        URLSession.shared.dataTask(with: loadRequest, completionHandler: { (data, response, error) in
+        let thumbnailDataTask = URLSession.shared.dataTask(with: loadRequest, completionHandler: { (data, response, error) in
             if let error = error {
                 DispatchQueue.main.async {
                     completion(self, error as NSError?)
@@ -61,7 +61,10 @@ class SearchListingImage : Equatable {
             DispatchQueue.main.async {
                 completion(self, nil)
             }
-        }).resume()
+        })
+        thumbnailDataTask.resume()
+        
+        return thumbnailDataTask
     }
     
     func loadLargeImage(_ completion: @escaping (_ listingImage:SearchListingImage, _ error: NSError?) -> Void) {

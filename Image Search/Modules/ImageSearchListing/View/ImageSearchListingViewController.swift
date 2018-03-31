@@ -27,6 +27,7 @@ class ImageSearchListingViewController: UIViewController, ImageSearchListingView
     fileprivate let sectionInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
     fileprivate var searches : ImageSearchResults?
     fileprivate var preferredTileSize : TileSize = .small
+    fileprivate var downloadTasksInProgress = [Int]()
     
     fileprivate var itemsPerRow: CGFloat {
         get {
@@ -164,16 +165,32 @@ extension ImageSearchListingViewController : UICollectionViewDataSource{
         cell.imageView.layer.borderWidth = 1
         cell.imageView.layer.borderColor = UIColor(red:222/255, green:225/255, blue:227/255, alpha: 1).cgColor
         
-        searchListingImage.loadThumbnailImage{(searchImage, error) in
-            if let error = error {
-                print("Error loading : \(error)")
-                return
+        
+        if searchListingImage.thumbnail == nil || downloadTasksInProgress.count <= indexPath.row {
+            let thumbnailDataTask = searchListingImage.loadThumbnailImage{(searchImage, error) in
+                if let error = error {
+                    print("Error loading : \(error)")
+                    return
+                }
+                
+                cell.imageView.layer.borderWidth = 0
+                cell.imageView.image = searchImage.thumbnail
             }
             
+            if thumbnailDataTask != nil {
+                if downloadTasksInProgress.count > indexPath.row {
+                    downloadTasksInProgress[indexPath.row] = thumbnailDataTask!.taskIdentifier
+                } else if downloadTasksInProgress.count == indexPath.row {
+                    downloadTasksInProgress.append(thumbnailDataTask!.taskIdentifier)
+                } else {
+                    //Ideally this should never be a case
+                }
+            }
+        }else {
             cell.imageView.layer.borderWidth = 0
-            cell.imageView.image = searchImage.thumbnail
+            cell.imageView.image = searchListingImage.thumbnail
         }
-        
+
         return cell
     }
 }
@@ -205,6 +222,30 @@ extension ImageSearchListingViewController : UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if self.downloadTasksInProgress.count <= indexPath.row {
+            return
+        }
         
+        URLSession.shared.getAllTasks(completionHandler: { (tasks) in
+            tasks.filter{ (task) in
+                        return self.downloadTasksInProgress[indexPath.row] == task.taskIdentifier
+                }.forEach{ (task) in
+                   task.priority = 0.2
+            }
+        })
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if self.downloadTasksInProgress.count <= indexPath.row {
+                return
+        }
+        
+        URLSession.shared.getAllTasks(completionHandler: { (tasks) in
+            tasks.filter{ (task) in
+                return self.downloadTasksInProgress[indexPath.row] == task.taskIdentifier
+                }.forEach{ (task) in
+                    task.priority = 0.8
+            }
+        })
     }
 }
