@@ -30,9 +30,12 @@ class ContentViewController: UIViewController {
 
         self.associateSearchListingImage?.loadLargeImage{(searchListingImage, error) in
             
-            if let error = error {
-                print("Error loading : \(error)")
+            if searchListingImage.largeImage == nil {
+                if let error = error {
+                    print("Error loading : \(error)")
+                }
                 self.infoLabel.text = "Error Loading image!!!"
+                self.imageView.image = nil
                 self.infoLabel.isHidden = false
                 
                 return
