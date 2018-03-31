@@ -20,6 +20,7 @@ class ImageSearchListingViewController: UIViewController, ImageSearchListingView
     
     //MARK: - Outlets
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var infoLabel: UILabel!
     
     //MARK: - Properties
     fileprivate let reuseIdentifier = "ImageSearchListingCell"
@@ -108,6 +109,10 @@ extension ImageSearchListingViewController : UISearchBarDelegate {
             
             if let error = error {
                 print("Error searching : \(error)")
+               
+                self.infoLabel.text = "No images found!!!"
+                self.infoLabel.isHidden = false
+                
                 return
             }
             
@@ -115,12 +120,22 @@ extension ImageSearchListingViewController : UISearchBarDelegate {
                 print("Found \(results.searchResults.count) matching \(results.searchTerm)")
                 self.searches = results
                 self.collectionView?.reloadData()
+                
+                self.infoLabel.isHidden = true
+            } else{
+                self.infoLabel.text = "No images found!!!"
+                self.infoLabel.isHidden = false
             }
+            
         }
         
         //Emptying current collection
         self.searches = nil
         self.collectionView?.reloadData()
+        
+        self.infoLabel.text = "Wait. searching for images..."
+        self.infoLabel.isHidden = false
+        
         
         searchBar.text = nil
         searchBar.resignFirstResponder()
@@ -150,6 +165,11 @@ extension ImageSearchListingViewController : UICollectionViewDataSource{
         cell.imageView.layer.borderColor = UIColor(red:222/255, green:225/255, blue:227/255, alpha: 1).cgColor
         
         searchListingImage.loadThumbnailImage{(searchImage, error) in
+            if let error = error {
+                print("Error loading : \(error)")
+                return
+            }
+            
             cell.imageView.layer.borderWidth = 0
             cell.imageView.image = searchImage.thumbnail
         }

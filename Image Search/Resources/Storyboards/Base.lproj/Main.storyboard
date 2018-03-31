@@ -93,6 +93,12 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="dQW-Dk-KoS"/>
                                 </connections>
                             </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search for images" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oex-Av-ni9">
+                                <rect key="frame" x="91" y="312" width="138.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.78810751440000004" green="0.78795999289999996" blue="0.80975145100000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -100,14 +106,17 @@
                             <constraint firstAttribute="trailing" secondItem="umT-qX-29e" secondAttribute="trailing" id="Tk9-rC-lTw"/>
                             <constraint firstItem="umT-qX-29e" firstAttribute="top" secondItem="hbV-iU-jTu" secondAttribute="bottom" id="Uzy-va-CFp"/>
                             <constraint firstItem="5Dd-bB-FIG" firstAttribute="top" secondItem="umT-qX-29e" secondAttribute="bottom" id="Y2b-3u-Dpj"/>
+                            <constraint firstItem="Oex-Av-ni9" firstAttribute="centerY" secondItem="5Dd-bB-FIG" secondAttribute="centerY" id="ZP4-U9-73H"/>
                             <constraint firstItem="umT-qX-29e" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="aL4-pz-G3X"/>
                             <constraint firstItem="5Dd-bB-FIG" firstAttribute="leading" secondItem="umT-qX-29e" secondAttribute="leading" id="bLI-Jr-2aq"/>
                             <constraint firstItem="EB4-KG-gu4" firstAttribute="top" secondItem="5Dd-bB-FIG" secondAttribute="bottom" id="lO0-Jg-lhx"/>
+                            <constraint firstItem="Oex-Av-ni9" firstAttribute="centerX" secondItem="5Dd-bB-FIG" secondAttribute="centerX" id="yqh-CV-hTY"/>
                         </constraints>
                     </view>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="collectionView" destination="5Dd-bB-FIG" id="1VT-86-FNg"/>
+                        <outlet property="infoLabel" destination="Oex-Av-ni9" id="AUm-zB-6XB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -137,17 +146,26 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XWZ-lO-I6j">
                                 <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading Image..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g4c-Rl-04q">
+                                <rect key="frame" x="97" y="273.5" width="126.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.78810751440000004" green="0.78795999289999996" blue="0.80975145100000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="XWZ-lO-I6j" firstAttribute="leading" secondItem="S9L-fE-h3r" secondAttribute="leading" id="4xk-Jv-LH5"/>
                             <constraint firstAttribute="trailing" secondItem="XWZ-lO-I6j" secondAttribute="trailing" id="BQl-Va-BKz"/>
+                            <constraint firstItem="g4c-Rl-04q" firstAttribute="centerX" secondItem="S9L-fE-h3r" secondAttribute="centerX" id="KOE-pz-4XJ"/>
                             <constraint firstItem="XWZ-lO-I6j" firstAttribute="top" secondItem="s2e-Fg-tdf" secondAttribute="bottom" id="Qmf-75-48x"/>
                             <constraint firstAttribute="bottom" secondItem="XWZ-lO-I6j" secondAttribute="bottom" id="Wy7-Vh-M2b"/>
+                            <constraint firstItem="g4c-Rl-04q" firstAttribute="centerY" secondItem="S9L-fE-h3r" secondAttribute="centerY" id="cvU-Nz-tip"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="imageView" destination="XWZ-lO-I6j" id="w3n-2H-AL9"/>
+                        <outlet property="infoLabel" destination="g4c-Rl-04q" id="oFg-Nt-cqs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cc0-FM-Tok" userLabel="First Responder" sceneMemberID="firstResponder"/>
