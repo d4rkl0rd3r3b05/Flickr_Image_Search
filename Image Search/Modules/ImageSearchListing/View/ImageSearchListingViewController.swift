@@ -31,13 +31,13 @@ class ImageSearchListingViewController: UIViewController, ImageSearchListingView
     
     fileprivate var itemsPerRow: CGFloat {
         get {
-            //Potrait
-            if UIDeviceOrientationIsPortrait(UIDevice.current.orientation){
-                return preferredTileSize == .small ? 3 : 2
-            }
-            //Rest of the state are treated as landscape
-            else {
+            //Landscape
+            if UIDeviceOrientationIsLandscape(UIDevice.current.orientation){
                 return preferredTileSize == .small ? 6 : 4
+            }
+            //Rest of the state are treated as Potrait
+            else {
+                return preferredTileSize == .small ? 3 : 2
             }
         }
     }
